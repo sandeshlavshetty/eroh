@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 640" width="1100" height="640" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+  <style>
+    .h{font-size:13px;font-weight:700;fill:#FFFFFF}
+    .bt{font-size:11.5px;font-weight:700;fill:#0E5E66}
+    .b{font-size:10.8px;fill:#1E2B37}
+    .lane{font-size:12px;font-weight:700;fill:#0E5E66}
+    .box{fill:#FFFFFF;stroke:#13838F;stroke-width:1.2}
+    .hl{fill:#FFF7E8;stroke:#E9A23B;stroke-width:1.5}
+    .ar{stroke:#0B2545;stroke-width:1.4;fill:none}
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#0B2545"/></marker>
+  </defs>
+  <rect width="1100" height="640" fill="#FFFFFF"/>
+  <rect x="0" y="0" width="1100" height="44" fill="#0E5E66"/>
+  <text x="24" y="28" class="h" font-size="16">Problems 1&#8211;3 &#183; Forecast layer: from raw logs to 20 weighted scenarios</text>
+
+  <!-- lane backgrounds -->
+  <rect x="16" y="58" width="870" height="160" rx="8" fill="#F2F8F9"/>
+  <rect x="16" y="230" width="870" height="150" rx="8" fill="#F2F8F9"/>
+  <rect x="16" y="392" width="870" height="160" rx="8" fill="#F2F8F9"/>
+  <text x="30" y="78" class="lane">P1 &#183; DEMAND (charging energy + swap count, per hub &#183; hour &#183; segment)</text>
+  <text x="30" y="250" class="lane">P2 &#183; RENEWABLE SUPPLY (per open-access contract)</text>
+  <text x="30" y="412" class="lane">P3 &#183; IEX PRICE (per 15-minute block)</text>
+
+  <!-- P1 boxes -->
+  <rect x="30" y="90" width="190" height="116" rx="7" class="box"/>
+  <text x="42" y="110" class="bt">Raw logs</text>
+  <text x="42" y="128" class="b">sessions, swaps, queue length,</text>
+  <text x="42" y="142" class="b">ready packs, charger faults</text>
+  <text x="42" y="160" class="b">+ weather, calendar, festivals,</text>
+  <text x="42" y="174" class="b">fleet shift times, own tariff</text>
+
+  <rect x="242" y="90" width="190" height="116" rx="7" class="hl"/>
+  <text x="254" y="110" class="bt" fill="#8A5A12">Unconstrain demand</text>
+  <text x="254" y="128" class="b">flag hours with 0 ready packs</text>
+  <text x="254" y="142" class="b">or full queue; estimate demand</text>
+  <text x="254" y="156" class="b">that walked away</text>
+  <!-- mini bars logged vs true -->
+  <g>
+    <rect x="262" y="176" width="14" height="22" fill="#8D99AE"/><rect x="262" y="166" width="14" height="10" fill="#E9A23B"/>
+    <rect x="282" y="172" width="14" height="26" fill="#8D99AE"/>
+    <rect x="302" y="178" width="14" height="20" fill="#8D99AE"/><rect x="302" y="162" width="14" height="16" fill="#E9A23B"/>
+    <text x="324" y="182" class="b" font-size="9.5">grey = logged</text>
+    <text x="324" y="195" class="b" font-size="9.5" fill="#B7791F">amber = lost demand</text>
+  </g>
+
+  <rect x="454" y="90" width="190" height="116" rx="7" class="box"/>
+  <text x="466" y="110" class="bt">Quantile models</text>
+  <text x="466" y="128" class="b">LightGBM, one global model</text>
+  <text x="466" y="142" class="b">for all hubs (hub id = feature)</text>
+  <text x="466" y="160" class="b">Challenger: Temporal Fusion</text>
+  <text x="466" y="174" class="b">Transformer &#8212; kept only if it</text>
+  <text x="466" y="188" class="b">wins on walk-forward tests</text>
+
+  <rect x="666" y="90" width="190" height="116" rx="7" class="box"/>
+  <text x="678" y="110" class="bt">Reconcile + calibrate</text>
+  <text x="678" y="128" class="b">hub &#8594; cluster &#8594; network</text>
+  <text x="678" y="142" class="b">numbers add up (MinT)</text>
+  <text x="678" y="160" class="b">conformal step: P10&#8211;P90 band</text>
+  <text x="678" y="174" class="b">really covers 80% of outcomes</text>
+  <text x="678" y="194" class="bt">&#8594; P10 / P50 / P90</text>
+
+  <line x1="220" y1="148" x2="240" y2="148" class="ar" marker-end="url(#a)"/>
+  <line x1="432" y1="148" x2="452" y2="148" class="ar" marker-end="url(#a)"/>
+  <line x1="644" y1="148" x2="664" y2="148" class="ar" marker-end="url(#a)"/>
+
+  <!-- P2 boxes -->
+  <rect x="30" y="262" width="190" height="106" rx="7" class="box"/>
+  <text x="42" y="282" class="bt">Weather at the plant</text>
+  <text x="42" y="300" class="b">NWP: irradiance, cloud, dust,</text>
+  <text x="42" y="314" class="b">hub-height wind, temperature</text>
+  <text x="42" y="332" class="b">Rajasthan / Gujarat / TN /</text>
+  <text x="42" y="346" class="b">Karnataka sites, not metros</text>
+
+  <rect x="242" y="262" width="190" height="106" rx="7" class="box"/>
+  <text x="254" y="282" class="bt">Physics first</text>
+  <text x="254" y="300" class="b">PV = capacity &#215; irradiance/1000</text>
+  <text x="254" y="314" class="b">&#215; (1 &#8722; 0.4%/&#176;C above 25&#176;C)</text>
+  <text x="254" y="332" class="b">Wind = turbine power curve</text>
+  <text x="254" y="346" class="b">(cut-in, cubic, rated, cut-out)</text>
+
+  <rect x="454" y="262" width="190" height="106" rx="7" class="box"/>
+  <text x="466" y="282" class="bt">ML correction</text>
+  <text x="466" y="300" class="b">LightGBM quantile on the</text>
+  <text x="466" y="314" class="b">physics error (residual):</text>
+  <text x="466" y="328" class="b">learns dust, soiling, monsoon,</text>
+  <text x="466" y="342" class="b">curtailment habits</text>
+
+  <rect x="666" y="262" width="190" height="106" rx="7" class="box"/>
+  <text x="678" y="282" class="bt">Blend + revise</text>
+  <text x="678" y="300" class="b">weighted blend with REMC +</text>
+  <text x="678" y="314" class="b">one vendor forecast; day-ahead</text>
+  <text x="678" y="328" class="b">run, then hourly nowcast</text>
+  <text x="678" y="352" class="bt">&#8594; P10 / P50 / P90 MWh</text>
+
+  <line x1="220" y1="315" x2="240" y2="315" class="ar" marker-end="url(#a)"/>
+  <line x1="432" y1="315" x2="452" y2="315" class="ar" marker-end="url(#a)"/>
+  <line x1="644" y1="315" x2="664" y2="315" class="ar" marker-end="url(#a)"/>
+
+  <!-- P3 boxes -->
+  <rect x="30" y="424" width="190" height="116" rx="7" class="box"/>
+  <text x="42" y="444" class="bt">Market drivers</text>
+  <text x="42" y="462" class="b">all-India demand forecast,</text>
+  <text x="42" y="476" class="b">solar + wind forecast, hydro,</text>
+  <text x="42" y="490" class="b">buy/sell bid volumes, prices</text>
+  <text x="42" y="504" class="b">same block D-1 and D-7,</text>
+  <text x="42" y="518" class="b">north-India heat, holidays</text>
+
+  <rect x="242" y="424" width="190" height="116" rx="7" class="box"/>
+  <text x="254" y="444" class="bt">Net load</text>
+  <text x="254" y="462" class="b">demand &#8722; solar &#8722; wind</text>
+  <text x="254" y="480" class="b">explains why noon is cheap</text>
+  <text x="254" y="494" class="b">and 18:00&#8211;22:00 is dear</text>
+  <text x="254" y="512" class="b">regimes: solar trough, normal,</text>
+  <text x="254" y="526" class="b">evening ramp, scarcity</text>
+
+  <rect x="454" y="424" width="190" height="52" rx="7" class="hl"/>
+  <text x="466" y="444" class="bt" fill="#8A5A12">(a) Cap classifier</text>
+  <text x="466" y="462" class="b">P(block clears at &#8377;10 cap)</text>
+  <rect x="454" y="486" width="190" height="54" rx="7" class="box"/>
+  <text x="466" y="506" class="bt">(b) Quantile LightGBM</text>
+  <text x="466" y="524" class="b">price range when below cap</text>
+
+  <rect x="666" y="424" width="190" height="116" rx="7" class="box"/>
+  <text x="678" y="444" class="bt">Mix into one distribution</text>
+  <text x="678" y="462" class="b">p(cap) &#215; &#8377;10 + (1 &#8722; p) &#215; range</text>
+  <text x="678" y="480" class="b">+ real-time vs day-ahead</text>
+  <text x="678" y="494" class="b">spread for intraday top-ups</text>
+  <text x="678" y="520" class="bt">&#8594; price quantiles, 96 blocks</text>
+
+  <line x1="220" y1="482" x2="240" y2="482" class="ar" marker-end="url(#a)"/>
+  <line x1="432" y1="460" x2="452" y2="452" class="ar" marker-end="url(#a)"/>
+  <line x1="432" y1="500" x2="452" y2="512" class="ar" marker-end="url(#a)"/>
+  <line x1="644" y1="452" x2="664" y2="470" class="ar" marker-end="url(#a)"/>
+  <line x1="644" y1="512" x2="664" y2="494" class="ar" marker-end="url(#a)"/>
+
+  <!-- scenario engine -->
+  <rect x="904" y="58" width="180" height="494" rx="10" fill="#0E5E66"/>
+  <text x="918" y="84" class="h">Scenario engine</text>
+  <text x="918" y="106" font-size="10.8" fill="#D6F0F2">1. Collect past forecast</text>
+  <text x="918" y="120" font-size="10.8" fill="#D6F0F2">   errors of P1, P2, P3</text>
+  <text x="918" y="140" font-size="10.8" fill="#D6F0F2">2. Fit a Gaussian copula:</text>
+  <text x="918" y="154" font-size="10.8" fill="#D6F0F2">   how errors move together</text>
+  <text x="918" y="174" font-size="10.8" fill="#D6F0F2">3. Sample 200 joint days</text>
+  <text x="918" y="194" font-size="10.8" fill="#D6F0F2">4. Reduce to 20 typical</text>
+  <text x="918" y="208" font-size="10.8" fill="#D6F0F2">   days with probabilities</text>
+  <!-- fan chart -->
+  <rect x="918" y="228" width="152" height="120" rx="6" fill="#13838F"/>
+  <path d="M926,330 C960,300 990,270 1062,250 L1062,300 C1000,310 960,320 926,334 Z" fill="#7FD1D8" opacity="0.45"/>
+  <path d="M926,330 C960,310 990,290 1062,276" stroke="#FFFFFF" stroke-width="2" fill="none"/>
+  <path d="M926,330 C960,296 995,262 1062,244" stroke="#F6C76B" stroke-width="1" fill="none" stroke-dasharray="3 2"/>
+  <path d="M926,330 C960,318 995,306 1062,304" stroke="#F6C76B" stroke-width="1" fill="none" stroke-dasharray="3 2"/>
+  <text x="926" y="342" font-size="9.5" fill="#FFFFFF">now</text>
+  <text x="1018" y="342" font-size="9.5" fill="#FFFFFF">+24 h</text>
+  <text x="918" y="372" font-size="10.8" fill="#D6F0F2">Example joint scenario:</text>
+  <text x="918" y="388" font-size="10.8" fill="#FFFFFF">"cloudy monsoon day"</text>
+  <text x="918" y="404" font-size="10.8" fill="#D6F0F2">solar &#8722;40%, evening</text>
+  <text x="918" y="418" font-size="10.8" fill="#D6F0F2">price +&#8377;2, demand &#8722;3%,</text>
+  <text x="918" y="432" font-size="10.8" fill="#D6F0F2">probability 6%</text>
+  <text x="918" y="460" font-size="10.8" font-weight="700" fill="#F6C76B">Why joint? Bidding and</text>
+  <text x="918" y="474" font-size="10.8" font-weight="700" fill="#F6C76B">storage need price, demand</text>
+  <text x="918" y="488" font-size="10.8" font-weight="700" fill="#F6C76B">and RE to move together</text>
+  <text x="918" y="506" font-size="10" fill="#D6F0F2">(Beykirch et al., 2022)</text>
+  <text x="918" y="534" font-size="11" font-weight="700" fill="#FFFFFF">&#8594; to the optimiser</text>
+
+  <line x1="856" y1="148" x2="902" y2="148" class="ar" marker-end="url(#a)"/>
+  <line x1="856" y1="315" x2="902" y2="315" class="ar" marker-end="url(#a)"/>
+  <line x1="856" y1="482" x2="902" y2="482" class="ar" marker-end="url(#a)"/>
+
+  <!-- footer analogy -->
+  <rect x="16" y="566" width="1068" height="60" rx="8" fill="#FFF7E8" stroke="#E9A23B"/>
+  <text x="32" y="590" font-size="12" font-weight="700" fill="#8A5A12">Analogy</text>
+  <text x="96" y="590" font-size="11.5" fill="#3A2E14">A good weather service says "70% chance of rain", not "it will rain". We do the same for demand, solar and price, so the</text>
+  <text x="96" y="608" font-size="11.5" fill="#3A2E14">optimiser can carry an umbrella (spare packs, extra stored energy) only when the risk is real &#8212; instead of every day.</text>
+</svg>
