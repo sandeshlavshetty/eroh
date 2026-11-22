@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 520" width="1100" height="520" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+  <style>
+    .h{font-size:16px;font-weight:700;fill:#FFFFFF}
+    .t{font-size:13px;font-weight:700;fill:#0B2545}
+    .b{font-size:10.8px;fill:#1E2B37}
+    .s{font-size:10px;fill:#33475B}
+    .w{font-size:11px;fill:#FFFFFF;font-weight:700}
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#0B2545"/></marker>
+  </defs>
+  <rect width="1100" height="520" fill="#FFFFFF"/>
+  <rect x="0" y="0" width="1100" height="44" fill="#13838F"/>
+  <text x="24" y="28" class="h">Problem 6 &#183; Dynamic pricing: a small price ladder, chosen by the optimiser, learned from real reactions</text>
+
+  <!-- price ladder -->
+  <rect x="16" y="58" width="420" height="446" rx="10" fill="#F2F5F8" stroke="#C9D3DD"/>
+  <text x="32" y="82" class="t">The ladder (per hub &#183; hour &#183; segment)</text>
+  <text x="32" y="100" class="s">Example: yesterday's average = &#8377;19.0/kWh</text>
+  <g>
+    <rect x="60" y="118" width="200" height="44" rx="6" fill="#C8553D"/>
+    <text x="74" y="145" class="w">+20%  &#8377;22.8</text><text x="276" y="138" class="b">scarce: evening peak,</text><text x="276" y="152" class="b">queue building</text>
+    <rect x="60" y="172" width="200" height="44" rx="6" fill="#E08A6C"/>
+    <text x="74" y="199" class="w">+10%  &#8377;20.9</text><text x="276" y="199" class="b">busy</text>
+    <rect x="60" y="226" width="200" height="44" rx="6" fill="#8D99AE"/>
+    <text x="74" y="253" class="w">0%  &#8377;19.0</text><text x="276" y="253" class="b">normal</text>
+    <rect x="60" y="280" width="200" height="44" rx="6" fill="#4FA9B1"/>
+    <text x="74" y="307" class="w">&#8722;10%  &#8377;17.1</text><text x="276" y="307" class="b">spare capacity</text>
+    <rect x="60" y="334" width="200" height="44" rx="6" fill="#13838F"/>
+    <text x="74" y="361" class="w">&#8722;20%  &#8377;15.2</text><text x="276" y="354" class="b">solar surplus,</text><text x="276" y="368" class="b">idle packs, cheap IEX</text>
+  </g>
+  <text x="32" y="404" class="b" font-weight="700">Why only 5 steps?</text>
+  <text x="32" y="420" class="b">Price &#215; demand is non-linear. Five fixed levels keep</text>
+  <text x="32" y="434" class="b">the joint energy + price problem a MILP, solvable</text>
+  <text x="32" y="448" class="b">in minutes, and easy for drivers to read.</text>
+  <text x="32" y="472" class="b" font-weight="700" fill="#8A5A12">Demand at a level = forecast &#215; (1 + &#948;)^&#949;</text>
+  <text x="32" y="488" class="s">&#948; = price change, &#949; = elasticity of that segment</text>
+
+  <!-- learning loop -->
+  <rect x="452" y="58" width="632" height="290" rx="10" fill="#EEF6F7" stroke="#13838F"/>
+  <text x="468" y="82" class="t">Learning loop (runs every day)</text>
+  <g>
+    <rect x="476" y="100" width="180" height="92" rx="8" fill="#FFFFFF" stroke="#13838F"/>
+    <text x="488" y="120" class="b" font-weight="700">1. Start from evidence</text>
+    <text x="488" y="138" class="b">retail &#949; &#8776; &#8722;1.0</text>
+    <text x="488" y="152" class="b">ride-hailing &#949; &#8776; &#8722;0.5</text>
+    <text x="488" y="166" class="b">logistics &#949; &#8776; &#8722;0.2</text>
+    <text x="488" y="182" class="s">field trials: &#8722;0.76 to &#8722;2.9</text>
+
+    <rect x="690" y="100" width="180" height="92" rx="8" fill="#FFFFFF" stroke="#13838F"/>
+    <text x="702" y="120" class="b" font-weight="700">2. Optimiser picks level</text>
+    <text x="702" y="138" class="b">together with energy,</text>
+    <text x="702" y="152" class="b">storage and pack plans</text>
+    <text x="702" y="166" class="b">(same MILP as P4, P5)</text>
+
+    <rect x="904" y="100" width="168" height="92" rx="8" fill="#FFFFFF" stroke="#13838F"/>
+    <text x="916" y="120" class="b" font-weight="700">3. Publish</text>
+    <text x="916" y="138" class="b">app + fleet API;</text>
+    <text x="916" y="152" class="b">price locked at plug-in</text>
+    <text x="916" y="166" class="b">(no surprise mid-session)</text>
+
+    <rect x="690" y="236" width="180" height="92" rx="8" fill="#FFFFFF" stroke="#13838F"/>
+    <text x="702" y="256" class="b" font-weight="700">4. Observe</text>
+    <text x="702" y="274" class="b">sessions, swaps, queue,</text>
+    <text x="702" y="288" class="b">hub switching; small</text>
+    <text x="702" y="302" class="b">randomised price tests</text>
+    <text x="702" y="316" class="b">in a few hubs</text>
+
+    <rect x="476" y="236" width="180" height="92" rx="8" fill="#FFFFFF" stroke="#13838F"/>
+    <text x="488" y="256" class="b" font-weight="700">5. Update</text>
+    <text x="488" y="274" class="b">Bayesian update of &#949;</text>
+    <text x="488" y="288" class="b">per segment and hub;</text>
+    <text x="488" y="302" class="b">contextual bandit tunes</text>
+    <text x="488" y="316" class="b">inside the guardrails</text>
+
+    <line x1="656" y1="146" x2="688" y2="146" stroke="#0B2545" stroke-width="1.4" marker-end="url(#a)"/>
+    <line x1="870" y1="146" x2="902" y2="146" stroke="#0B2545" stroke-width="1.4" marker-end="url(#a)"/>
+    <path d="M988,192 L988,282 L872,282" fill="none" stroke="#0B2545" stroke-width="1.4" marker-end="url(#a)"/>
+    <line x1="690" y1="282" x2="658" y2="282" stroke="#0B2545" stroke-width="1.4" marker-end="url(#a)"/>
+    <line x1="566" y1="236" x2="566" y2="194" stroke="#0B2545" stroke-width="1.4" marker-end="url(#a)"/>
+  </g>
+
+  <!-- guardrails and segments -->
+  <rect x="452" y="360" width="310" height="144" rx="10" fill="#FCEFEB" stroke="#C8553D" stroke-dasharray="4 3"/>
+  <text x="468" y="382" class="t" fill="#C8553D">Guardrails</text>
+  <text x="468" y="402" class="b">&#8226; &#177;20% of previous day's average tariff</text>
+  <text x="468" y="418" class="b">&#8226; MoP 2024 service-charge ceilings, if binding</text>
+  <text x="468" y="434" class="b">&#8226; daily average roughly revenue-neutral</text>
+  <text x="468" y="450" class="b">&#8226; 5% priority reserve never priced away</text>
+  <text x="468" y="466" class="b">&#8226; transparent display of rate per unit</text>
+  <text x="468" y="482" class="b">&#8226; EBITDA &#8805; 12% per cluster</text>
+
+  <rect x="774" y="360" width="310" height="144" rx="10" fill="#FFF8EC" stroke="#E9A23B"/>
+  <text x="790" y="382" class="t" fill="#8A5A12">Segment rules</text>
+  <text x="790" y="402" class="b" font-weight="700">Retail drivers</text>
+  <text x="790" y="416" class="b">fully dynamic by hub and hour</text>
+  <text x="790" y="434" class="b" font-weight="700">Ride-hailing fleets</text>
+  <text x="790" y="448" class="b">off-peak credits pushed to dispatch apps</text>
+  <text x="790" y="466" class="b" font-weight="700">Logistics fleets</text>
+  <text x="790" y="480" class="b">contracted band + reserved packs,</text>
+  <text x="790" y="494" class="b">discount for committed night swaps</text>
+</svg>

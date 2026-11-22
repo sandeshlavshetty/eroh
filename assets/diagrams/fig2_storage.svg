@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 600" width="1100" height="600" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+  <style>
+    .h{font-size:16px;font-weight:700;fill:#FFFFFF}
+    .lab{font-size:11.5px;font-weight:700;fill:#0B2545}
+    .b{font-size:10.8px;fill:#1E2B37}
+    .s{font-size:10px;fill:#33475B}
+    .bt{font-size:12px;font-weight:700;fill:#8A5A12}
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#0B2545"/></marker>
+  </defs>
+  <rect width="1100" height="600" fill="#FFFFFF"/>
+  <rect x="0" y="0" width="1100" height="44" fill="#8A5A12"/>
+  <text x="24" y="28" class="h">Problem 4 &#183; Storage: what the two kinds of battery do across one day</text>
+
+  <!-- time axis: 24 h from x=170 to x=1070 => 37.5 px/h -->
+  <g class="s" text-anchor="middle">
+    <text x="170" y="70">00</text><text x="245" y="70">02</text><text x="320" y="70">04</text><text x="395" y="70">06</text>
+    <text x="470" y="70">08</text><text x="545" y="70">10</text><text x="620" y="70">12</text><text x="695" y="70">14</text>
+    <text x="770" y="70">16</text><text x="845" y="70">18</text><text x="920" y="70">20</text><text x="995" y="70">22</text><text x="1070" y="70">24</text>
+  </g>
+  <text x="24" y="70" class="lab">Hour (IST)</text>
+
+  <!-- tariff band row -->
+  <text x="24" y="98" class="lab">DISCOM tariff</text>
+  <text x="24" y="112" class="s">(MoP 2024 EV ToD)</text>
+  <rect x="170" y="82" width="337" height="34" fill="#F4D3CC"/>
+  <rect x="507" y="82" width="263" height="34" fill="#CFEBD8"/>
+  <rect x="770" y="82" width="300" height="34" fill="#F4D3CC"/>
+  <text x="338" y="104" text-anchor="middle" class="b">1.3&#215; average cost of supply</text>
+  <text x="638" y="104" text-anchor="middle" class="b" font-weight="700">0.7&#215; solar hours 09&#8211;16</text>
+  <text x="920" y="104" text-anchor="middle" class="b">1.3&#215; &#8212; and IEX evening spikes</text>
+
+  <!-- demand curve row -->
+  <text x="24" y="150" class="lab">Charging + swap</text>
+  <text x="24" y="164" class="s">demand</text>
+  <path d="M170,190 C230,196 300,200 360,192 C420,170 460,146 500,144 C560,150 640,152 700,148 C760,140 820,126 860,124 C900,126 960,140 1000,160 C1040,176 1060,182 1070,184" fill="none" stroke="#0B2545" stroke-width="2.4"/>
+  <text x="862" y="118" class="s" text-anchor="middle">evening peak</text>
+
+  <!-- BESS row -->
+  <rect x="16" y="214" width="1068" height="82" rx="8" fill="#FFF8EC"/>
+  <text x="24" y="240" class="lab">Stationary BESS</text>
+  <text x="24" y="254" class="s">arbitrage + peak</text>
+  <text x="24" y="267" class="s">shaving + buffer</text>
+  <rect x="545" y="236" width="225" height="26" rx="4" fill="#8D99AE"/>
+  <text x="657" y="253" text-anchor="middle" font-size="10.8" fill="#FFFFFF" font-weight="700">CHARGE from solar / 0.7&#215; / cheap IEX</text>
+  <rect x="808" y="236" width="150" height="26" rx="4" fill="#13838F"/>
+  <text x="883" y="253" text-anchor="middle" font-size="10.8" fill="#FFFFFF" font-weight="700">DISCHARGE at peak</text>
+  <text x="170" y="285" class="s">idle overnight unless the price spread pays &#8212; rule checked every hour:</text>
+  <text x="575" y="285" class="s" font-weight="700" fill="#8A5A12">peak price &#215; 0.90 &#8722; cheap price &gt; wear cost (&#8776; &#8377;1.3/kWh)</text>
+
+  <!-- Swap pack row -->
+  <rect x="16" y="306" width="1068" height="120" rx="8" fill="#EEF6F7"/>
+  <text x="24" y="332" class="lab">Swap packs</text>
+  <text x="24" y="346" class="s">service first,</text>
+  <text x="24" y="359" class="s">flexibility second</text>
+  <!-- pack SoC staging line -->
+  <path d="M170,400 L245,400 L260,375 L470,375 L485,375 L530,375 L545,345 L600,345 L620,375 L770,375 L785,345 L840,345 L860,400 L900,400 L920,375 L1070,375" fill="none" stroke="#13838F" stroke-width="2.2"/>
+  <text x="300" y="368" class="s">returned packs parked at 50&#8211;60% SoC</text>
+  <text x="548" y="338" class="s">top-up</text>
+  <text x="788" y="338" class="s" font-weight="700">top-up 60&#8211;90 min before peak</text>
+  <text x="640" y="394" class="s">solar-hour charging when it is safe</text>
+  <text x="868" y="416" class="s">swapped out</text>
+  <text x="1000" y="416" class="s">100%</text><text x="1000" y="386" class="s">55%</text>
+  <line x1="1040" y1="345" x2="1070" y2="345" stroke="#C8553D" stroke-dasharray="3 2"/>
+  <text x="1052" y="340" class="s" fill="#C8553D" text-anchor="end">full</text>
+
+  <!-- three explanation cards -->
+  <rect x="16" y="440" width="350" height="146" rx="8" fill="#FFFFFF" stroke="#E9A23B"/>
+  <text x="30" y="462" class="bt">Hard rule for every swap station</text>
+  <text x="30" y="482" class="b">ready packs &#8805; P90 swap forecast for the next</text>
+  <text x="30" y="496" class="b">window + 5% priority reserve</text>
+  <text x="30" y="516" class="b">The optimiser may only shift charging in time</text>
+  <text x="30" y="530" class="b">if this rule still holds. No-stockout MILP</text>
+  <text x="30" y="544" class="b">studies show &#8776;50% lower charging cost vs</text>
+  <text x="30" y="558" class="b">"charge as soon as it comes back".</text>
+
+  <rect x="375" y="440" width="350" height="146" rx="8" fill="#FFFFFF" stroke="#E9A23B"/>
+  <text x="389" y="462" class="bt">Why not keep every pack at 100%?</text>
+  <text x="389" y="482" class="b">LFP cells age fastest when they sit full and</text>
+  <text x="389" y="496" class="b">hot: 35&#176;C &#8594; 50&#176;C roughly doubles capacity</text>
+  <text x="389" y="510" class="b">loss. Parking at 50&#8211;60% and topping up</text>
+  <text x="389" y="524" class="b">late cuts self-discharge, idle loss and</text>
+  <text x="389" y="538" class="b">wear &#8212; important in a Delhi summer.</text>
+
+  <rect x="734" y="440" width="350" height="146" rx="8" fill="#FFFFFF" stroke="#E9A23B"/>
+  <text x="748" y="462" class="bt">Loss levers (10% &#8594; 8%)</text>
+  <text x="748" y="482" class="b">&#8226; run only the charger power modules needed</text>
+  <text x="748" y="496" class="b">   (efficiency falls below ~15% of rated load)</text>
+  <text x="748" y="510" class="b">&#8226; gentler C-rate when time allows</text>
+  <text x="748" y="524" class="b">&#8226; cycle BESS only when the spread pays</text>
+  <text x="748" y="538" class="b">&#8226; cut standby power, charge in cooler hours</text>
+  <text x="748" y="552" class="b">&#8226; balance load across feeders (loss &#8733; I&#178;)</text>
+</svg>

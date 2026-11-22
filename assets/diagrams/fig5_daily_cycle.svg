@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 470" width="1100" height="470" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+  <style>
+    .h{font-size:16px;font-weight:700;fill:#FFFFFF}
+    .t{font-size:12px;font-weight:700;fill:#0B2545}
+    .b{font-size:10.8px;fill:#1E2B37}
+    .s{font-size:10px;fill:#33475B}
+    .w{font-size:11px;font-weight:700;fill:#FFFFFF}
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#0B2545"/></marker>
+    <marker id="o" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#B7791F"/></marker>
+  </defs>
+  <rect width="1100" height="470" fill="#FFFFFF"/>
+  <rect x="0" y="0" width="1100" height="44" fill="#0B2545"/>
+  <text x="24" y="28" class="h">Decision algorithm &#183; one operating cycle: plan the day before, re-plan every hour</text>
+
+  <!-- timeline -->
+  <line x1="40" y1="96" x2="1060" y2="96" stroke="#C9D3DD" stroke-width="3"/>
+  <rect x="40" y="84" width="470" height="24" rx="4" fill="#E8F5F6"/>
+  <rect x="520" y="84" width="540" height="24" rx="4" fill="#FFF8EC"/>
+  <text x="275" y="101" text-anchor="middle" class="t" fill="#0E5E66">D-1 &#183; day-ahead planning (stage 1)</text>
+  <text x="790" y="101" text-anchor="middle" class="t" fill="#8A5A12">Day D &#183; delivery with hourly re-planning (stage 2)</text>
+
+  <!-- stage-1 steps -->
+  <g>
+    <rect x="40" y="126" width="104" height="136" rx="8" fill="#FFFFFF" stroke="#13838F"/>
+    <text x="52" y="146" class="t">08:00</text><text x="52" y="164" class="b">Forecasts</text><text x="52" y="178" class="b">P1, P2, P3</text><text x="52" y="192" class="b">for D (96</text><text x="52" y="206" class="b">blocks)</text>
+    <rect x="156" y="126" width="104" height="136" rx="8" fill="#FFFFFF" stroke="#13838F"/>
+    <text x="168" y="146" class="t">09:00</text><text x="168" y="164" class="b">200 joint</text><text x="168" y="178" class="b">paths &#8594; 20</text><text x="168" y="192" class="b">scenarios</text>
+    <rect x="272" y="126" width="118" height="136" rx="8" fill="#0B2545"/>
+    <text x="284" y="146" class="w">09:30</text><text x="284" y="164" font-size="10.8" fill="#FFFFFF">Solve 2-stage</text><text x="284" y="178" font-size="10.8" fill="#FFFFFF">stochastic</text><text x="284" y="192" font-size="10.8" fill="#FFFFFF">MILP + CVaR</text><text x="284" y="212" font-size="10" fill="#B9D7EA">per cluster, then</text><text x="284" y="226" font-size="10" fill="#B9D7EA">portfolio link</text>
+    <rect x="402" y="126" width="108" height="136" rx="8" fill="#FFFFFF" stroke="#E9A23B" stroke-width="1.6"/>
+    <text x="414" y="146" class="t">10:00&#8211;12:00</text><text x="414" y="164" class="b">Trader reviews</text><text x="414" y="178" class="b">bid note;</text><text x="414" y="192" class="b">submit IEX</text><text x="414" y="206" class="b">DAM bids</text><text x="414" y="226" class="s" fill="#8A5A12">human approves</text>
+  </g>
+  <line x1="144" y1="194" x2="154" y2="194" stroke="#0B2545" stroke-width="1.4" marker-end="url(#a)"/>
+  <line x1="260" y1="194" x2="270" y2="194" stroke="#0B2545" stroke-width="1.4" marker-end="url(#a)"/>
+  <line x1="390" y1="194" x2="400" y2="194" stroke="#0B2545" stroke-width="1.4" marker-end="url(#a)"/>
+
+  <!-- stage-2 loop -->
+  <rect x="540" y="126" width="120" height="136" rx="8" fill="#FFFFFF" stroke="#E9A23B"/>
+  <text x="552" y="146" class="t">~13:00 D-1</text><text x="552" y="164" class="b">Cleared</text><text x="552" y="178" class="b">volumes and</text><text x="552" y="192" class="b">prices fixed &#8594;</text><text x="552" y="206" class="b">first-stage</text><text x="552" y="220" class="b">decisions locked</text>
+
+  <rect x="690" y="126" width="370" height="136" rx="10" fill="#FFF8EC" stroke="#E9A23B" stroke-width="1.4"/>
+  <text x="706" y="146" class="t" fill="#8A5A12">Every hour on day D (rolling horizon, 24&#8211;48 h)</text>
+  <circle cx="760" cy="206" r="40" fill="#FFFFFF" stroke="#E9A23B" stroke-width="1.5"/>
+  <text x="760" y="202" text-anchor="middle" class="b" font-weight="700">nowcast</text><text x="760" y="216" text-anchor="middle" class="s">new data</text>
+  <circle cx="875" cy="206" r="40" fill="#FFFFFF" stroke="#E9A23B" stroke-width="1.5"/>
+  <text x="875" y="202" text-anchor="middle" class="b" font-weight="700">re-solve</text><text x="875" y="216" text-anchor="middle" class="s">warm start</text>
+  <circle cx="990" cy="206" r="40" fill="#FFFFFF" stroke="#E9A23B" stroke-width="1.5"/>
+  <text x="990" y="202" text-anchor="middle" class="b" font-weight="700">act on</text><text x="990" y="216" text-anchor="middle" class="s">next hour only</text>
+  <line x1="800" y1="206" x2="833" y2="206" stroke="#B7791F" stroke-width="1.6" marker-end="url(#o)"/>
+  <line x1="915" y1="206" x2="948" y2="206" stroke="#B7791F" stroke-width="1.6" marker-end="url(#o)"/>
+  <path d="M985,245 C975,258 775,258 765,247" fill="none" stroke="#B7791F" stroke-width="1.6" stroke-dasharray="5 3" marker-end="url(#o)"/>
+  <line x1="510" y1="194" x2="538" y2="194" stroke="#0B2545" stroke-width="1.4" marker-end="url(#a)"/>
+  <line x1="660" y1="194" x2="688" y2="194" stroke="#0B2545" stroke-width="1.4" marker-end="url(#a)"/>
+
+  <!-- explanation cards -->
+  <rect x="40" y="284" width="330" height="170" rx="8" fill="#F2F5F8"/>
+  <text x="54" y="306" class="t">What is decided "here and now" (stage 1)</text>
+  <text x="54" y="326" class="b">&#8226; IEX day-ahead bid per 15-min block</text>
+  <text x="54" y="342" class="b">&#8226; renewable contract schedule per cluster</text>
+  <text x="54" y="358" class="b">&#8226; indicative price ladder for tomorrow</text>
+  <text x="54" y="374" class="b">&#8226; overnight pack positions</text>
+  <text x="54" y="398" class="s">These must work across all 20 scenarios, because</text>
+  <text x="54" y="412" class="s">they cannot be changed once the auction clears.</text>
+  <text x="54" y="436" class="b" font-weight="700" fill="#0E5E66">Analogy: booking flights before you know the weather.</text>
+
+  <rect x="384" y="284" width="330" height="170" rx="8" fill="#F2F5F8"/>
+  <text x="398" y="306" class="t">What adapts "wait and see" (stage 2)</text>
+  <text x="398" y="326" class="b">&#8226; real-time market top-ups (half-hourly RTM)</text>
+  <text x="398" y="342" class="b">&#8226; BESS charge / discharge, charger power limits</text>
+  <text x="398" y="358" class="b">&#8226; pack charging start times and van moves</text>
+  <text x="398" y="374" class="b">&#8226; price nudges within the ladder</text>
+  <text x="398" y="398" class="s">Re-solved hourly; only the first hour is executed,</text>
+  <text x="398" y="412" class="s">then the window rolls forward (MPC).</text>
+  <text x="398" y="436" class="b" font-weight="700" fill="#8A5A12">Analogy: a GPS that re-routes after every turn.</text>
+
+  <rect x="728" y="284" width="332" height="170" rx="8" fill="#F2F5F8"/>
+  <text x="742" y="306" class="t">Objective, in words</text>
+  <text x="742" y="326" class="b">maximise expected profit over 20 scenarios</text>
+  <text x="742" y="344" class="b">&#8722; battery wear cost (piecewise, Xu et al.)</text>
+  <text x="742" y="360" class="b">&#8722; penalty &#215; unserved demand (&#8776; &#8377;20/kWh)</text>
+  <text x="742" y="376" class="b">&#8722; &#955; &#215; CVaR: average loss on worst 5% of days</text>
+  <text x="742" y="398" class="s">Solver: Pyomo + HiGHS (open source) or Gurobi.</text>
+  <text x="742" y="412" class="s">Size estimate: ~100k variables (5 clusters &#215; 20</text>
+  <text x="742" y="426" class="s">scenarios &#215; 24 h); to be benchmarked in pilot.</text>
+  <text x="742" y="444" class="s">Fallback if solver fails: last good plan + rules.</text>
+</svg>
